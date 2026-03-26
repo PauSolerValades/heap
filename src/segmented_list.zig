@@ -53,7 +53,13 @@ pub fn SegmentedMultiArrayList(comptime Book: type, comptime n: usize) type {
         pub fn access(self: *Self, i: usize) Book {
             return self.bookshelf.items[@as(usize, i >> n)].get(i & (shelf_count - 1));
         }
-
+        
+        pub fn accessField(self: *Self, i: usize, comptime field: MAList(Book).Field) @FieldType(Book, @tagName(field)) {
+            const current_shelf = i >> n;
+            const book = i & (shelf_count - 1);
+            
+            return self.bookshelf.items[current_shelf].items(field)[book];
+        }
         pub fn deinit(self: *Self, gpa: Allocator) void {
             for (self.bookshelf.items) |*shelf| {
                 shelf.deinit(gpa);
@@ -94,4 +100,9 @@ test "try it out :D" {
     try expect(b2.author == 524);
     try expect(b2.id == 524);
 
+    const author_only = bs.accessField(10, .author);
+    try expect(author_only == 10);
+
+    const id_only = bs.accessField(10, .id);
+    try expect(id_only == 10);
 }
