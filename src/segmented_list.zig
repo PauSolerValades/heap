@@ -6,7 +6,7 @@ const Allocator = std.mem.Allocator;
 /// type is the struct you wanna hold
 /// n is the power of 2 which will be used as shelf_count
 pub fn SegmentedMultiArrayList(comptime Book: type, comptime n: usize) type {
-    const shelf_count = @as(usize, @bitCast(@as(usize, 1) << n)); // lovely! 
+    const shelf_count = @as(usize, 1 << n); // lovely! 
     
     return struct {
  
