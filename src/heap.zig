@@ -2,10 +2,6 @@ const std = @import("std");
 const Allocator = std.mem.Allocator;
 const assert = std.debug.assert;
 const Order = std.math.Order;
-const testing = std.testing;
-const expect = testing.expect;
-const expectEqual = testing.expectEqual;
-const expectError = testing.expectError;
 
 pub fn Heap(comptime T: type, comptime Context: type, comptime compareFn: fn (context: Context, a: T, b: T) Order) type {
     return DaryHeap(T, 2, Context, compareFn);
@@ -336,7 +332,12 @@ fn greaterThan(context: void, a: u32, b: u32) Order {
 const PQlt = Heap(u32, void, lessThan);
 const PQgt = Heap(u32, void, greaterThan);
 
+const testing = std.testing;
+
 const ta = testing.allocator;
+const expect = testing.expect;
+const expectEqual = testing.expectEqual;
+const expectError = testing.expectError;
 
 test "add and remove min heap" {
     var queue: PQlt = .empty;
