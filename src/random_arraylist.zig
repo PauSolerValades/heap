@@ -18,11 +18,11 @@ pub fn RandomArrayList(comptime T: type) type {
             };
         }
 
-        pub fn append(self: *Self, allocator: Allocator, element: T) Allocator.Error!void {
+        pub fn push(self: *Self, allocator: Allocator, element: T) Allocator.Error!void {
             try self.elements.append(allocator, element);
         }
 
-        pub fn remove(self: *Self, rng: std.Random) ?T {
+        pub fn pop(self: *Self, rng: std.Random) ?T {
             const i = rng.uintLessThan(usize, self.elements.items.len);
             return self.elements.swapRemove(i);
         }
